@@ -1,1 +1,2 @@
 
+var elements = new myPlugin();
