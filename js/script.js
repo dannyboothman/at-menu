@@ -1,2 +1,3 @@
 
-var elements = new myPlugin();
+
+atMenu.init();

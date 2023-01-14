@@ -1,50 +1,123 @@
-(function()
-{
-	/*** Register plugin in window object */
-	
-	this.myPlugin = function()
-	{
-		let defaults = {};
-		
-		this.elements = [];
-		this.settings = (arguments[0] && typeof arguments[0] === 'object') ? extendDefaults(defaults,arguments[0]) : defaults;
-		
-		this.init();
-	}
-	
-	
-	/*** Public Methods */
-	
-	myPlugin.prototype.init = function()
-	{
-		console.log('Init plugin.');
-		
-		build.call(this);
-	}
-	
-	
-	myPlugin.prototype.update = function(element)
-	{
-		console.log('Update plugin.');
-	}
-	
-	
-	/*** Private Methods */
-	
-	function build(element)
-	{
-		console.log('Build plugin.');
-	}
-	
-	
-	function extendDefaults(defaults,properties)
-	{
-		Object.keys(properties).forEach(property => {
-			if(properties.hasOwnProperty(property))
-			{
-				defaults[property] = properties[property];
-			}
-		});
-		return defaults;
-	}
-}());
+(function (root, factory) {
+    if ( typeof define === 'function' && define.amd ) {
+        define([], factory(root));
+    } else if ( typeof exports === 'object' ) {
+        module.exports = factory(root);
+    } else {
+        root.atMenu = factory(root);
+    }
+})(typeof global !== 'undefined' ? global : this.window || this.global, function (root) {
+
+    'use strict';
+
+    //
+    // Variables
+    //
+
+    var window = root; // Map window to root to avoid confusion
+    var publicMethods = {}; // Placeholder for public methods
+
+    // Default settings
+    var defaults = {
+        "startPhrase": "@",
+    };
+
+
+    //
+    // Methods
+    //
+
+    /**
+     * Merge two or more objects. Returns a new object.
+     * @private
+     * @param {Boolean}  deep     If true, do a deep (or recursive) merge [optional]
+     * @param {Object}   objects  The objects to merge together
+     * @returns {Object}          Merged values of defaults and options
+     */
+    var extend = function () {
+
+        // Variables
+        var extended = {};
+        var deep = false;
+        var i = 0;
+        var length = arguments.length;
+
+        // Check if a deep merge
+        if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
+            deep = arguments[0];
+            i++;
+        }
+
+        // Merge the object into the extended object
+        var merge = function (obj) {
+            for ( var prop in obj ) {
+                if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
+                    // If deep merge and property is an object, merge properties
+                    if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
+                        extended[prop] = extend( true, extended[prop], obj[prop] );
+                    } else {
+                        extended[prop] = obj[prop];
+                    }
+                }
+            }
+        };
+
+        // Loop through each object and conduct a merge
+        for ( ; i < length; i++ ) {
+            var obj = arguments[i];
+            merge(obj);
+        }
+
+        return extended;
+
+    };
+
+    /**
+     * A private method
+     * @private
+     */
+    var somePrivateMethod = function () {
+        // Code goes here...
+    };
+
+    /**
+     * A public method
+     */
+    publicMethods.doSomething = function () {
+        somePrivateMethod();
+        // Code goes here...
+    };
+
+    /**
+     * Another public method
+     */
+    publicMethods.init = function ( options ) {
+        
+        // Merge user options with defaults
+        var settings = extend( defaults, options || {} );
+
+
+        console.log(settings);
+
+        // Listen for click events
+        document.addEventListener( 'click', function (){
+            // Do something...
+        }, false );
+
+        // Listen for window resize events
+        window.addEventListener( 'resize',  function (){
+            // Do something...
+        }, false );
+
+        // Code goes here...
+        //
+    };
+
+
+    //
+    // Public APIs
+    //
+
+    return publicMethods;
+
+});
