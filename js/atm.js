@@ -99,7 +99,10 @@
         //logger(event);
         if (event.data == "@" || event.key == "@"){
             //logger("Open Menu");
-            AtMenu.getCaretPosition(settings.target);
+            var position = AtMenu.getCaretPosition(settings.target);
+            logger(position);
+            settings.menu.style.top = position.caret.top + position.target.top + 20 + "px";
+            settings.menu.style.left = position.caret.left + position.target.left + "px";
             settings.menu.classList.add("atm-menu-active");
         }
     };
@@ -116,7 +119,14 @@
     publicMethods.getCaretPosition = function (target) {
         logger(target);
         var caretPos = $(target).textareaHelper('caretPos');
-        logger(caretPos);
+        var targetPos = target.getBoundingClientRect();
+        /*logger(caretPos);
+        logger(targetPos);*/
+        var position = {
+            "caret": caretPos,
+            "target": targetPos
+        }
+        return position;
     };
 
     /**
