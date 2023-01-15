@@ -95,10 +95,14 @@
             settings.menu.classList.remove("atm-menu-active");
         }
     };
+    var closeMenuForced = function (settings){
+      settings.menu.classList.remove("atm-menu-active");
+    }
+
     // Open Menu
     var openMenu = function (settings, event) {
         //logger(event);
-        if (event.data == "@" || event.key == "@"){
+        if (event.data == settings.openMenu || event.key == settings.openMenu){
             //logger("Open Menu");
             var position = AtMenu.getCaretPosition(settings.target);
             logger(position);
@@ -113,6 +117,18 @@
             settings.menu.classList.add("atm-menu-active");
         }
     };
+
+    var backspaceCheck = function (settings, event){
+      //logger(event);
+      if (event.keyCode == 8 || event.key == "Backspace"){
+        // if backspace
+        const text = settings.target.value;
+        const cursorPos = settings.target.selectionStart;
+        if (text[cursorPos - 1] === settings.openMenu) {
+          closeMenuForced(settings);
+        }
+    }
+    }
 
     /**
      * A public method
@@ -154,6 +170,9 @@
 
             // Check for opening the Menu
             openMenu(settings, event)
+
+            // Check for backspace
+            backspaceCheck(settings, event);
 ;
         }, false );
 
