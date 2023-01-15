@@ -101,7 +101,7 @@
             //logger("Open Menu");
             var position = AtMenu.getCaretPosition(settings.target);
             logger(position);
-            settings.menu.style.top = position.caret.top + position.target.top + 20 + "px";
+            settings.menu.style.top = position.caret.top + position.target.top + position.html + 20 + "px";
             settings.menu.style.left = position.caret.left + position.target.left + "px";
             settings.menu.classList.add("atm-menu-active");
         }
@@ -124,7 +124,8 @@
         logger(targetPos);*/
         var position = {
             "caret": caretPos,
-            "target": targetPos
+            "target": targetPos,
+            "html": document.querySelector("html").scrollTop
         }
         return position;
     };
