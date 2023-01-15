@@ -22,7 +22,8 @@
         "target": "", // id/ class: textarea, input, etc
         "menu": "", // id/ class of the menu that appears
         "openMenu": "@", // @ - Key to open the menu
-        "closeMenu": "Escape" // 27 - Key to close the menu
+        "closeMenu": "Escape", // 27 - Key to close the menu,
+        "marginTop": 20
     };
 
 
@@ -101,7 +102,13 @@
             //logger("Open Menu");
             var position = AtMenu.getCaretPosition(settings.target);
             logger(position);
-            settings.menu.style.top = position.caret.top + position.target.top + position.html + 20 + "px";
+            
+            var marginTop = defaults.marginTop;
+            if (settings.marginTop){
+              marginTop = settings.marginTop;
+            }
+
+            settings.menu.style.top = position.caret.top + position.target.top + position.html + marginTop + "px";
             settings.menu.style.left = position.caret.left + position.target.left + "px";
             settings.menu.classList.add("atm-menu-active");
         }
