@@ -8,7 +8,7 @@ AtMenu.init({
     "menu": theTextareaMenu,  // id-class-querySelector of the menu
     "openMenu": "@", // @ - Key to open the menu
     "closeMenu": "Escape",  // 27 - Key to close the menu
-    "menuItem": "atm-item"
+    "menuItem": "atm-item" // class of the items within the menu - this allows for filtering, sorting, and navigation
 });
 
 

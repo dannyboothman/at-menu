@@ -23,8 +23,8 @@
         "menu": "", // id/ class of the menu that appears
         "openMenu": "@", // @ - Key to open the menu
         "closeMenu": "Escape", // 27 - Key to close the menu,
-        "marginTop": 20,
-        "menuItem": ""
+        "marginTop": 20, // margin above the menu so that it's not over the line of text/ openMenu key
+        "menuItem": "" // class of the items within the menu - this allows for filtering, sorting, and navigation
     };
 
 

@@ -101,3 +101,22 @@ main{
     outline: 1px solid #ee0979;
     padding: 10px;
 }
+
+
+
+section{
+    padding: 50px 0;
+}
+
+li{
+    margin-top: 10px;
+}
+
+li code{
+    background: #ee0979;
+    background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);
+    background: linear-gradient(to right, #ff6a00, #ee0979);
+    color: #FFF;
+    padding: 0 5px;
+    border-radius: 4px;
+}
