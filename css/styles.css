@@ -40,11 +40,16 @@ header{
 }
 
 #header_logo{
-    font-size: 2rem;
+    font-size: 1.1rem;
     color: #FFF;
-    font-size: 2rem;
     display: flex;
     align-items: center;
+}
+
+@media only screen and (min-width:600px){
+    #header_logo{
+        font-size: 2rem;
+    }
 }
 
 #header_logo_version{
@@ -61,13 +66,21 @@ header{
 #header_right_nav{
     display: flex;
     flex-wrap: nowrap;
-    gap: 20px;
+    gap: 10px;
 }
 
 #header_right_nav a{
     color: #FFF;
     font-weight: bold;
-    font-size: 1.1rem;
+}
+
+@media only screen and (min-width:600px){
+    #header_right_nav{
+        gap: 20px;
+    }
+    #header_right_nav a{
+        font-size: 1.1.rem;
+    }
 }
 
 #header_main{
