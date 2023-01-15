@@ -11,7 +11,23 @@
     border-top: 1px dashed #ddd;
 }
 
+.changelog_item_header{
+    display: flex;
+    align-items: center;
+}
+
 .changelog_item_title{
     font-size: 2rem;
     font-weight: bold;
+}
+
+.changelog_item_date{
+    margin-left: 10px;
+    background-color: #DDD;
+    padding: 0 5px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
 }
