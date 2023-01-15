@@ -7,8 +7,6 @@
 .atm-menu{
     position: absolute;
     z-index: 99999;
-    top: 0;
-    left: 0;
     opacity: 0;
     visibility: hidden;
     transition: 0.25s;
