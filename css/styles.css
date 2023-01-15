@@ -43,6 +43,19 @@ header{
     font-size: 2rem;
     color: #FFF;
     font-size: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+#header_logo_version{
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 5px;
+    margin-left: 10px;
+    height: 20px;
+    border-radius: 4px;
+    background-color: rgb(255 255 255 / 0.2);
 }
 
 #header_right_nav{
@@ -62,6 +75,12 @@ header{
     max-width: 600px;
     margin: 0 auto;
     font-size: 2.3rem;
+}
+
+
+.container{
+    max-width: 95%;
+    margin: 0 auto;
 }
 
 
