@@ -25,6 +25,7 @@ body{
 
 header{
     min-height: 600px;
+    padding-bottom: 50px;
     width: 100%;
     background: #ee0979;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);  /* Chrome 10-25, Safari 5.1-6 */
@@ -102,6 +103,31 @@ header.header_smaller{
     font-size: 2.3rem;
 }
 
+#header_main_buttons{
+    font-size: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+#header_main_buttons a{
+    padding: 0 20px;
+    height: 40px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #FFF;
+}
+
+#header_main_buttons a:first-child{
+    background-color: #212121;
+}
+
+#header_main_buttons a:last-child{
+    border: 1px solid rgb(255 255 255 / 0.4);
+}
 
 .container{
     max-width: 95%;
