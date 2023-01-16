@@ -185,9 +185,8 @@ li code{
     line-height: 25px;
 }
 
-.alert_info{
-    border-left: 5px solid #346ddb;
-}
+.alert_info{ border-left: 5px solid #346ddb; }
+.alert_error{ border-left: 5px solid #ea1636; }
 
 .alert svg{
     width: 25px;
@@ -196,6 +195,5 @@ li code{
     display: block;
 }
 
-.alert_info svg{
-    stroke: #346ddb;   
-}
+.alert_info svg{ stroke: #346ddb; }
+.alert_error svg{ stroke: #ea1636; }
