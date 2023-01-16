@@ -54,6 +54,7 @@
     color: #212121;
     padding: 0 20px;
     text-decoration: none;
+    border-right: 1px dashed #ddd;
 }
 
 #docs_nav a.docs_nav_current{
@@ -61,6 +62,7 @@
     background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #ff6a00, #ee0979); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     color: #FFF;
+    border-right-color: #ee0979;
 }
 
 #docs_nav a:hover{

@@ -15,6 +15,10 @@ body{
     font-size: 16px;
 }
 
+a{
+    color: #ee0979;
+}
+
 .margint10{ margin-top: 10px !important; }
 .margint20{ margin-top: 20px !important; }
 .margint30{ margin-top: 30px !important; }
@@ -57,6 +61,11 @@ header.header_smaller{
     color: #FFF;
     display: flex;
     align-items: center;
+}
+
+#header_logo a{
+    text-decoration: none;
+    color: #FFF;
 }
 
 @media only screen and (min-width:600px){
