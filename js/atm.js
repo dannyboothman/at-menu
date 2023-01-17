@@ -84,19 +84,21 @@
 
     // Logger
     var logger = function(message) {
-        if (location.href == 'http://127.0.0.1:5500/index.html'){
+        //if (location.href == 'http://127.0.0.1:5500/index.html'){
             console.log(message);
-        }
+            document.getElementById("logger").innerHTML += "<li>" + JSON.stringify(message) + "</li>";
+        //}
     }
     // Close Menu
     var closeMenu = function (settings, event) {
         //logger(event);
         if (event.code == settings.closeMenu){
-            //logger("Close Menu");
+            logger("Close Menu");
             settings.menu.classList.remove("atm-menu-active");
         }
     };
     var closeMenuForced = function (settings){
+      logger("Close Menu");
       settings.menu.classList.remove("atm-menu-active");
     }
 
@@ -104,7 +106,7 @@
     var openMenu = function (settings, event) {
         //logger(event);
         if (event.data == settings.openMenu || event.key == settings.openMenu){
-            //logger("Open Menu");
+            logger("Open Menu");
             var position = AtMenu.getCaretPosition(settings.target);
             logger(position);
             
@@ -144,8 +146,9 @@
         logger(target);
         var caretPos = $(target).textareaHelper('caretPos');
         var targetPos = target.getBoundingClientRect();
-        /*logger(caretPos);
-        logger(targetPos);*/
+        logger(caretPos);
+        logger(targetPos);
+        logger(document.querySelector("html").scrollTop);
         var position = {
             "caret": caretPos,
             "target": targetPos,
@@ -165,7 +168,7 @@
 
         // Listen for click events
         settings.target.addEventListener( 'keydown', function (event){
-            
+            logger(event);
             // Check for closing the Menu
             closeMenu(settings, event);
 
