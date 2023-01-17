@@ -168,7 +168,8 @@
 
         // Listen for click events
         settings.target.addEventListener( 'keydown', function (event){
-            logger(event);
+            logger(event.keyCode);
+            logger(event.key);
             // Check for closing the Menu
             closeMenu(settings, event);
 
