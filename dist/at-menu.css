@@ -17,9 +17,10 @@
     visibility: visible;
 }
 
+/* End Required CSS */
 
 
-/* Custom CSS - You should style your own menus and items within the menu */
+/* Custom CSS Below - You should style your own menus and items within the menu */
 .atm-menu{
     background-color: #FFF;
     box-shadow: 0 0 5px #ddd;

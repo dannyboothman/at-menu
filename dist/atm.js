@@ -21,10 +21,9 @@
     var defaults = {
         "target": "", // id/ class: textarea, input, etc
         "menu": "", // id/ class of the menu that appears
-        "openMenu": "@", // @ - Key to open the menu
-        "closeMenu": "Escape", // 27 - Key to close the menu,
-        "marginTop": 20, // margin above the menu so that it's not over the line of text/ openMenu key
-        "menuItem": "" // class of the items within the menu - this allows for filtering, sorting, and navigation
+        "openMenu": "@", // @ - Character to open the menu
+        "closeMenu": "Escape", // Esc - Character to close the menu,
+        "marginTop": 20 // margin above the menu so that it's not over the line of text/ openMenu key
     };
 
 
@@ -84,15 +83,13 @@
 
     // Logger
     var logger = function(message) {
-        if (location.href == 'http://127.0.0.1:5500/index.html'){
-            console.log(message);
-        }
+        //console.log(message);
+        //document.getElementById("logger").innerHTML += "<li>" + JSON.stringify(message) + "</li>";
     }
+
     // Close Menu
     var closeMenu = function (settings, event) {
-        //logger(event);
         if (event.code == settings.closeMenu){
-            //logger("Close Menu");
             settings.menu.classList.remove("atm-menu-active");
         }
     };
@@ -102,11 +99,12 @@
 
     // Open Menu
     var openMenu = function (settings, event) {
-        //logger(event);
-        if (event.data == settings.openMenu || event.key == settings.openMenu){
-            //logger("Open Menu");
+
+        const text = settings.target.value;
+        const cursorPos = settings.target.selectionStart;
+
+        if (text[cursorPos - 1] === settings.openMenu) {
             var position = AtMenu.getCaretPosition(settings.target);
-            logger(position);
             
             var marginTop = defaults.marginTop;
             if (settings.marginTop){
@@ -120,32 +118,25 @@
     };
 
     var backspaceCheck = function (settings, event){
-      //logger(event);
       if (event.keyCode == 8 || event.key == "Backspace"){
-        // if backspace
         const text = settings.target.value;
         const cursorPos = settings.target.selectionStart;
+
         if (text[cursorPos - 1] === settings.openMenu) {
           closeMenuForced(settings);
         }
-    }
+      }
     }
 
     /**
      * A public method
      */
-    publicMethods.doSomething = function () {
-        somePrivateMethod();
-        // Code goes here...
-        console.log(settings);
-    };
 
     publicMethods.getCaretPosition = function (target) {
-        logger(target);
+        
         var caretPos = $(target).textareaHelper('caretPos');
         var targetPos = target.getBoundingClientRect();
-        /*logger(caretPos);
-        logger(targetPos);*/
+        
         var position = {
             "caret": caretPos,
             "target": targetPos,
@@ -161,24 +152,27 @@
         
         // Merge user options with defaults
         var settings = extend( defaults, options || {} );
-        logger(settings);
-
-        // Listen for click events
-        settings.target.addEventListener( 'keydown', function (event){
-            
-            // Check for closing the Menu
-            closeMenu(settings, event);
+        
+        // Listen for input events on the target
+        settings.target.addEventListener( 'input', function (event){
 
             // Check for opening the Menu
-            openMenu(settings, event)
+            openMenu(settings, event);
 
-            // Check for backspace
-            backspaceCheck(settings, event);
-;
         }, false );
 
-        // Code goes here...
-        //
+        // Listen for keydown events on the target
+        settings.target.addEventListener( 'keydown', function (event){
+
+          // Check for closing the Menu
+          closeMenu(settings, event);
+
+          // Check backspace
+          backspaceCheck(settings, event);
+          
+       }, false );
+
+        
     };
 
 
