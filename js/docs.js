@@ -1,3 +1,7 @@
+window.onload = (event) => { 
+  document.querySelector("#docs_nav [href='" + location.pathname + "']").classList.add("docs_nav_current");
+}
+
 const copyCode = async (el) => {
     var container = el.closest(".ide");
     var code = container.querySelector(".ide_code_item_active pre code").innerText;

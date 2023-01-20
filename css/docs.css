@@ -108,13 +108,13 @@
     align-items: center;
     color: #FFF;
     padding: 0 10px;
-    font-weight: bold;
     font-size: 0.8rem;
     border-bottom: 3px solid transparent;
     cursor: pointer;
 }
 
 .ide_header_nav_item_active{
+    font-weight: bold;
     border-bottom: 3px solid rgb(255 255 255 / 0.3);
 }
 

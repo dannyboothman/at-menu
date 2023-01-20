@@ -11,27 +11,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@400;700&display=swap" rel="stylesheet">    
 
+    <script src="js/includes.js"></script>
 </head>
 <body>
 
 <header>
-    <div id="header_top">
-        <div id="header_inner">
-            <div id="header_left">
-                <div id="header_logo">
-                    <a href="/index.html">@ Menu</a>
-                    <a href="/changelog.html" id="header_logo_version">v 0.1</a>
-                </div>
-            </div>
-            <div id="header_right">
-                <nav id="header_right_nav">
-                    <a href="/index.html">Home</a>
-                    <a href="/docs/welcome.html">Docs</a>
-                    <a href="/changelog.html">Changelog</a>
-                </nav>
-            </div>
-        </div>
-    </div>
+    <div include-html="header.html"></div>
     <div id="header_main">
         <div id="header_main_inner">
             <h1>@ Style Menu for Textareas</h1>
@@ -62,6 +47,9 @@
     <div class="atm-item">Menu Item 10</div>
 </div>
 
+<script>
+    includeHTML();
+</script>
 <script src="js/jquery.js"></script>
 <script src="js/atm.js"></script>
 <script src="js/script.js"></script>

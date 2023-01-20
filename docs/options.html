@@ -12,27 +12,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@400;700&display=swap" rel="stylesheet">    
 
+    <script src="js/includes.js"></script>
 </head>
 <body>
 
 <header class="header_smaller">
-    <div id="header_top">
-        <div id="header_inner">
-            <div id="header_left">
-                <div id="header_logo">
-                    <a href="/index.html">@ Menu</a>
-                    <a href="/changelog.html" id="header_logo_version">v 0.1</a>
-                </div>
-            </div>
-            <div id="header_right">
-                <nav id="header_right_nav">
-                    <a href="/index.html">Home</a>
-                    <a href="/docs/welcome.html">Docs</a>
-                    <a href="/changelog.html">Changelog</a>
-                </nav>
-            </div>
-        </div>
-    </div>
+    <div include-html="header.html"></div>
     <div id="header_main">
         <div id="header_main_inner">
             <h1>Docs</h1>
@@ -51,26 +36,7 @@
 
             <div id="docs">
 
-                <div id="docs_left">
-                    <nav id="docs_nav">
-                        <div class="docs_nav_group">
-                            <div class="docs_nav_title">GETTING STARTED</div>
-                            <a href="/docs/welcome.html" title="Docs - Getting Started: Welcome">Welcome</a>
-                            <a href="/docs/installation.html" title="Docs - Getting Started: Installation">Installation</a>
-                            <a style="text-decoration: line-through;" title="Docs - Getting Started: FAQs">FAQs</a>
-                        </div>
-                        <div class="docs_nav_group">
-                            <div class="docs_nav_title">API</div>
-                            <a href="/docs/options.html" title="Docs - Getting Started: Options" class="docs_nav_current">Options</a>
-                        </div>
-                        <div class="docs_nav_group">
-                            <div class="docs_nav_title">SUPPORT</div>
-                            <a style="text-decoration: line-through;" title="Docs - Support: Contributing">Contributing</a>
-                            <a href="/changelog.html" title="Changelog">Changelog</a>
-                            <a style="text-decoration: line-through;" title="Docs - Support: Contact">Contact</a>
-                        </div>
-                    </nav>
-                </div>
+                <div include-html="docs_nav.html"></div>
 
                 <div id="docs_right">
                     
@@ -334,6 +300,9 @@
     </section>
 </main>
 
+<script>
+    includeHTML();
+</script>
 <script src="js/docs.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TEY61KB5MZ"></script>
 <script>
