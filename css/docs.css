@@ -85,9 +85,9 @@
 }
 
 .ide_header{
-    background: #ee0979;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #ff6a00, #ee0979); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #ee0979;
+    background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);
+    background: linear-gradient(to right, #ff6a00, #ee0979);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     height: 40px;
@@ -110,7 +110,12 @@
     padding: 0 10px;
     font-weight: bold;
     font-size: 0.8rem;
-    border-bottom: 3px solid rgb(255 255 255 / 0.3)
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+}
+
+.ide_header_nav_item_active{
+    border-bottom: 3px solid rgb(255 255 255 / 0.3);
 }
 
 .ide_header_tools{
@@ -133,6 +138,71 @@
     display: block;
 }
 
+
+.ide_code_item{
+    display: none;
+    padding: 10px;
+    background-color: #FFF;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.ide_code_item p:first-child{
+    margin-top: 0;
+}
+
+.ide_code_item p:last-child{
+    margin-bottom: 0;
+}
+
+.ide_code_item.ide_code_item_active{
+    display: block;
+}
+
+.ide_code_item_info{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    line-height: 20px;
+}
+
+.ide_code_item_info:not(:first-child){
+    margin-top: 10px;
+    border-top: 1px dashed #ddd;
+    padding-top: 10px;
+}
+
+.ide_code_item_info_left{
+    min-width: 60px;
+    max-width: 60px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.ide_code_item_info_name{
+    padding: 0 10px;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    border-radius: 4px;
+    color: #FFF;
+    font-weight: bold;
+    background: #ee0979;
+    background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);
+    background: linear-gradient(to right, #ff6a00, #ee0979);
+}
+
+.ide_code_item_info_type, .ide_code_item_info_default{
+    background-color: #F5F5F5;
+    padding: 0 10px;
+    height: 20px;
+    line-height: 20px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    border-radius: 4px;
+}
+
 #documentation pre{
     overflow: auto;
     margin: 0;
@@ -140,7 +210,6 @@
     background-color: #FFF;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    padding: 10px;
 }
 
 #documentation pre > code{
@@ -148,6 +217,6 @@
     text-align: left;
     width: 100%;
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 20px;
 }
