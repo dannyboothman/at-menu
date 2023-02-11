@@ -1,5 +1,5 @@
 # @ Menu
-Create an popup menu within a textarea or input.
+Create a popup menu within a textarea or input.
 
 The @ Menu is a fully customizable JS plugin which you can drop into your existing projects in minutes. 
 
