@@ -1,2 +1,4 @@
 # @ Menu
-Create a facebook like @ menu within a textarea or input.
+Create a @ menu within a textarea or input.
+
+www.atmenu.js.com
