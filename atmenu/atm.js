@@ -174,9 +174,7 @@
   }
 
   var checkMenuItemVisible = function(settings){
-    console.log("scroll");
     var selectedItem = document.querySelector('.atm-item-active');
-    console.log(selectedItem);
     if (selectedItem){
       var itemPos = selectedItem.offsetTop;
       settings.menu.scrollTo({ top: itemPos });
