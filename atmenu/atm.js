@@ -239,7 +239,7 @@
     var allMenuItems = document.querySelectorAll(settings.items);
 
     [].forEach.call(allMenuItems, function (item) {
-      item.setAttribute("onclick", "AtMenu.onChooseRun('" + settings.targetId + "')");
+      item.setAttribute("onclick", "AtMenu.onChooseRun('" + settings.targetId + "', this)");
     });
   }
 
@@ -268,13 +268,19 @@
       return position;
   };
 
-  publicMethods.onChooseRun = function (settings){
+  publicMethods.onChooseRun = function (settings, item){
     
+    console.log(settings);
+    console.log(item)
+
     if (!isObject(settings)){
       settings = allSettings.find(x => x.targetId == settings);
+      var selectedItem = item;
+    } else {
+      var selectedItem = settings.menu.querySelector(".atm-item-active");
     }
 
-    var selectedItem = settings.menu.querySelector(".atm-item-active");
+    
 
     var evt = {
       "settings": settings,
