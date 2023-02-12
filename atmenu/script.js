@@ -1,7 +1,8 @@
-var theTextarea = document.getElementById("atm");
-var theTextareaMenu = document.getElementById("atm-menu");
-
 AtMenu.init({
-    "target": theTextarea,
-    "menu": theTextareaMenu
+    "target": "#atm",
+    "menu": "#atm-menu",
+    "onChoose": function(evt){
+        var selectMenuItemText = evt.selectedItem.innerText;
+        AtMenu.insertContent(evt, selectMenuItemText);
+    }
 });
