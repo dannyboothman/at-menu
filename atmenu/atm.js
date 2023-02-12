@@ -96,11 +96,17 @@
   var closeMenu = function (settings, event) {
       if (event.code == settings.closeMenu){
           settings.menu.classList.remove("atm-menu-active");
+          if (settings.onClose != null){
+            AtMenu.onCloseRun(settings);
+          }
       }
   };
 
   var closeMenuForced = function (settings){
     settings.menu.classList.remove("atm-menu-active");
+    if (settings.onClose != null){
+      AtMenu.onCloseRun(settings);
+    }
   }
 
   // Open Menu
@@ -120,6 +126,11 @@
           settings.menu.style.top = position.caret.top + position.target.top + position.html + marginTop + "px";
           settings.menu.style.left = position.caret.left + position.target.left + "px";
           settings.menu.classList.add("atm-menu-active");
+
+          if (settings.onOpen != null){
+            AtMenu.onOpenRun(settings);
+          }
+
       }
   };
 
@@ -269,9 +280,6 @@
   };
 
   publicMethods.onChooseRun = function (settings, item){
-    
-    console.log(settings);
-    console.log(item)
 
     if (!isObject(settings)){
       settings = allSettings.find(x => x.targetId == settings);
@@ -279,8 +287,6 @@
     } else {
       var selectedItem = settings.menu.querySelector(".atm-item-active");
     }
-
-    
 
     var evt = {
       "settings": settings,
@@ -293,6 +299,34 @@
 
     settings.onChoose(evt)
     
+  }
+
+  publicMethods.onOpenRun = function (settings){
+
+    var evt = {
+      "settings": settings,
+      "event": event,
+      "target": settings.target,
+      "typedText": textAfterSymbol(settings),
+      "caretPos": this.getCaretPosition(settings.target)
+    }
+
+    settings.onOpen(evt)
+
+  }
+
+  publicMethods.onCloseRun = function (settings){
+
+    var evt = {
+      "settings": settings,
+      "event": event,
+      "target": settings.target,
+      "typedText": textAfterSymbol(settings),
+      "caretPos": this.getCaretPosition(settings.target)
+    }
+
+    settings.onClose(evt)
+
   }
 
   publicMethods.insertContent = function(evt, content, replace = true){
