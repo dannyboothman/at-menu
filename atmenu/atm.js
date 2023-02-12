@@ -214,6 +214,11 @@
     var text = textAfterSymbol(settings);
     if (text != null){
       rebuildFilteredMenu(text, settings, event);
+      if (settings.onFilter != null){
+        if (text.length > 0){
+          AtMenu.onFilterRun(settings);
+        }
+      }
     }
   }
 
@@ -332,6 +337,20 @@
     }
 
     settings.onClose(evt)
+
+  }
+
+  publicMethods.onFilterRun = function (settings){
+
+    var evt = {
+      "settings": settings,
+      "event": event,
+      "target": settings.target,
+      "typedText": textAfterSymbol(settings),
+      "caretPos": this.getCaretPosition(settings.target)
+    }
+
+    settings.onFilter(evt)
 
   }
 
