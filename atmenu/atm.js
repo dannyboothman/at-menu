@@ -160,6 +160,9 @@
       var upTargetDiv = document.querySelector('.atm-item-active');
       if (upTargetDiv) {
           var previousDiv = upTargetDiv.previousElementSibling;
+          while (previousDiv && previousDiv.classList.contains("atm-item-inactive")) {
+            previousDiv = previousDiv.previousElementSibling;
+          }
           if (previousDiv){
               upTargetDiv.classList.remove("atm-item-active");
               previousDiv.classList.add("atm-item-active");
@@ -175,6 +178,9 @@
       var downTargetDiv = document.querySelector('.atm-item-active');
       if (downTargetDiv) {
           var nextDiv = downTargetDiv.nextElementSibling;
+          while (nextDiv && nextDiv.classList.contains("atm-item-inactive")) {
+            nextDiv = nextDiv.nextElementSibling;
+          }
           if (nextDiv){
               downTargetDiv.classList.remove("atm-item-active");
               nextDiv.classList.add("atm-item-active");
