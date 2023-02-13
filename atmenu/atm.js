@@ -30,7 +30,7 @@
       "items": ".atm-item",
       "openMenu": "@", // @ - Character to open the menu
       "closeMenu": "Escape", // Esc - Character to close the menu,
-      "marginTop": 20 // margin above the menu so that it's not over the line of text/ openMenu key
+      "marginTop": 30 // margin above the menu so that it's not over the line of text/ openMenu key
   };
 
   var extend = function () {
@@ -116,7 +116,7 @@
       const cursorPos = settings.target.selectionStart;
 
       if (text[cursorPos - 1] === settings.openMenu) {
-          var position = AtMenu.getCaretPosition(settings.target);
+          var position = AtMenu.getCaretPosition(settings);
           
           var marginTop = defaults.marginTop;
           if (settings.marginTop){
@@ -124,7 +124,7 @@
           }
 
           settings.menu.style.top = position.caret.top + position.target.top + position.html + marginTop + "px";
-          settings.menu.style.left = position.caret.left + position.target.left + "px";
+          settings.menu.style.left = position.caret.left + position.target.left - 30 + "px";
           settings.menu.classList.add("atm-menu-active");
 
           if (settings.onOpen != null){
@@ -277,18 +277,62 @@
    * A public method
    */
 
-  publicMethods.getCaretPosition = function (target) {
+  publicMethods.getCaretPosition = function (settings) {
       
-      var caretPos = $(target).textareaHelper('caretPos');
-      var targetPos = target.getBoundingClientRect();
+      //var caretPos = $(settings.target).textareaHelper('caretPos');
+      var caretPos = getNewCaretPosition(settings.target);
+      var targetPos = settings.target.getBoundingClientRect();
+      var menuPos = settings.menu.getBoundingClientRect();
       
       var position = {
           "caret": caretPos,
           "target": targetPos,
+          "menu": menuPos,
           "html": document.querySelector("html").scrollTop
       }
+      console.log(position);
       return position;
   };
+
+  var getNewCaretPosition = function(textarea){
+    // Create a hidden element with the same font and styling as the textarea
+    const span = document.createElement("span");
+    span.style.position = "absolute";
+    span.style.visibility = "hidden";
+    span.style.whiteSpace = "pre";
+    span.style.font = window.getComputedStyle(textarea, null).getPropertyValue("font");
+    span.style.fontSize = window.getComputedStyle(textarea, null).getPropertyValue("font-size");
+    span.style.padding = window.getComputedStyle(textarea, null).getPropertyValue("padding");
+    span.style.margin = window.getComputedStyle(textarea, null).getPropertyValue("margin");
+    span.style.boxSizing = window.getComputedStyle(textarea, null).getPropertyValue("box-sizing");
+    span.style.wordSpacing = window.getComputedStyle(textarea, null).getPropertyValue("word-spacing");
+    span.style.textTransform = window.getComputedStyle(textarea, null).getPropertyValue("text-transform");
+    span.style.direction = window.getComputedStyle(textarea, null).getPropertyValue("direction");
+    span.style.textIndent = window.getComputedStyle(textarea, null).getPropertyValue("text-indent");
+    span.style.lineHeight = window.getComputedStyle(textarea, null).getPropertyValue("line-height");
+
+    // Get the line that the caret is on
+    const caret = textarea.selectionStart;
+    const lines = textarea.value.substring(0, caret).split("\n");
+    const currentLine = lines[lines.length - 1];
+
+    // Insert the text up to the caret position on the current line into the hidden element
+    span.textContent = currentLine;
+
+    // Measure the width and height of the text in the hidden element
+    document.body.appendChild(span);
+    const left = span.offsetWidth;
+    document.body.removeChild(span);
+
+    // Get the line height and font size
+    const lineHeight = parseFloat(window.getComputedStyle(textarea, null).getPropertyValue("line-height"));
+    const fontSize = parseFloat(window.getComputedStyle(textarea, null).getPropertyValue("font-size"));
+
+    // Calculate the top position based on the line height and font size
+    const top = (lines.length - 1) * lineHeight + (lineHeight - fontSize) / 2;
+
+    return { left: left, top: top };
+  }
 
   publicMethods.onChooseRun = function (settings, item){
 
@@ -305,7 +349,7 @@
       "target": settings.target,
       "selectedItem": selectedItem,
       "typedText": textAfterSymbol(settings),
-      "caretPos": this.getCaretPosition(settings.target)
+      "caretPos": this.getCaretPosition(settings)
     }
 
     settings.onChoose(evt)
@@ -319,7 +363,7 @@
       "event": event,
       "target": settings.target,
       "typedText": textAfterSymbol(settings),
-      "caretPos": this.getCaretPosition(settings.target)
+      "caretPos": this.getCaretPosition(settings)
     }
 
     settings.onOpen(evt)
@@ -333,7 +377,7 @@
       "event": event,
       "target": settings.target,
       "typedText": textAfterSymbol(settings),
-      "caretPos": this.getCaretPosition(settings.target)
+      "caretPos": this.getCaretPosition(settings)
     }
 
     settings.onClose(evt)
@@ -347,7 +391,7 @@
       "event": event,
       "target": settings.target,
       "typedText": textAfterSymbol(settings),
-      "caretPos": this.getCaretPosition(settings.target)
+      "caretPos": this.getCaretPosition(settings)
     }
 
     settings.onFilter(evt)
@@ -448,140 +492,3 @@
   return publicMethods;
 
 });
-
-
-
-
-(function (factory) {
-  'use strict';
-  if (typeof define === 'function' && define.amd) {
-      // AMD. Register as an anonymous module.
-      define(['jquery'], factory);
-  } else if (typeof module === 'object' && module.exports) {
-      // Node/CommonJS
-      module.exports = factory(require('jquery'));
-  } else {
-      // Browser globals
-      factory(jQuery);
-  }
-}(function ($) {
-  'use strict';
-  var caretClass   = 'textarea-helper-caret'
-    , dataKey      = 'textarea-helper'
-
-    // Styles that could influence size of the mirrored element.
-    , mirrorStyles = [ 
-                      // Box Styles.
-                      'box-sizing', 'height', 'width', 'padding-bottom'
-                    , 'padding-left', 'padding-right', 'padding-top'
-  
-                      // Font stuff.
-                    , 'font-family', 'font-size', 'font-style' 
-                    , 'font-variant', 'font-weight'
-  
-                      // Spacing etc.
-                    , 'word-spacing', 'letter-spacing', 'line-height'
-                    , 'text-decoration', 'text-indent', 'text-transform' 
-                    
-                      // The direction.
-                    , 'direction'
-                    ];
-
-  var TextareaHelper = function (elem) {
-    if (elem.nodeName.toLowerCase() !== 'textarea') return;
-    this.$text = $(elem);
-    this.$mirror = $('<div/>').css({ 'position'    : 'absolute'
-                                  , 'overflow'    : 'auto'
-                                  , 'white-space' : 'pre-wrap'
-                                  , 'word-wrap'   : 'break-word'
-                                  , 'top'         : 0
-                                  , 'left'        : -9999
-                                  }).insertAfter(this.$text);
-  };
-
-  (function () {
-    this.update = function () {
-
-      // Copy styles.
-      var styles = {};
-      for (var i = 0, style; style = mirrorStyles[i]; i++) {
-        styles[style] = this.$text.css(style);
-      }
-      this.$mirror.css(styles).empty();
-      
-      // Update content and insert caret.
-      var caretPos = this.getOriginalCaretPos()
-        , str      = this.$text.val()
-        , pre      = document.createTextNode(str.substring(0, caretPos))
-        , post     = document.createTextNode(str.substring(caretPos))
-        , $car     = $('<span/>').addClass(caretClass).css('position', 'absolute').html('&nbsp;');
-      this.$mirror.append(pre, $car, post)
-                  .scrollTop(this.$text.scrollTop());
-    };
-
-    this.destroy = function () {
-      this.$mirror.remove();
-      this.$text.removeData(dataKey);
-      return null;
-    };
-
-    this.caretPos = function () {
-      this.update();
-      var $caret = this.$mirror.find('.' + caretClass)
-        , pos    = $caret.position();
-      if (this.$text.css('direction') === 'rtl') {
-        pos.right = this.$mirror.innerWidth() - pos.left - $caret.width();
-        pos.left = 'auto';
-      }
-
-      return pos;
-    };
-
-    this.height = function () {
-      this.update();
-      this.$mirror.css('height', '');
-      return this.$mirror.height();
-    };
-
-    // XBrowser caret position
-    // Adapted from http://stackoverflow.com/questions/263743/how-to-get-caret-position-in-textarea
-    this.getOriginalCaretPos = function () {
-      var text = this.$text[0];
-      if (text.selectionStart) {
-        return text.selectionStart;
-      } else if (document.selection) {
-        text.focus();
-        var r = document.selection.createRange();
-        if (r == null) {
-          return 0;
-        }
-        var re = text.createTextRange()
-          , rc = re.duplicate();
-        re.moveToBookmark(r.getBookmark());
-        rc.setEndPoint('EndToStart', re);
-        return rc.text.length;
-      } 
-      return 0;
-    };
-
-  }).call(TextareaHelper.prototype);
-  
-  $.fn.textareaHelper = function (method) {
-    this.each(function () {
-      var $this    = $(this)
-        , instance = $this.data(dataKey);
-      if (!instance) {
-        instance = new TextareaHelper(this);
-        $this.data(dataKey, instance);
-      }
-    });
-    if (method) {
-      var instance = this.first().data(dataKey);
-      return instance[method]();
-    } else {
-      return this;
-    }
-  };
-
-}));
-
