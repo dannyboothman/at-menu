@@ -3,6 +3,7 @@
  * At Menu
  * Copyright 2023 Daniel Boothman
  * www.atmenujs.com
+ * License: MIT
  */
 (function (root, factory) {
   if ( typeof define === 'function' && define.amd ) {
@@ -290,7 +291,6 @@
           "menu": menuPos,
           "html": document.querySelector("html").scrollTop
       }
-      console.log(position);
       return position;
   };
 
@@ -407,13 +407,13 @@
 
     const theLink = `${content}`;
 
+    const replacedText = caretPosition - atSymbolIndex;
     const newText = theText.substring(0, atSymbolIndex) + theLink + theText.substring(caretPosition);
     settings.target.value = newText;
 
     closeMenuForced(settings);
 
-    let theLinkPosition = settings.target.value.indexOf(theLink);
-    theLinkPosition = theLinkPosition + theLink.length;
+    let theLinkPosition = caretPosition - replacedText + theLink.length;
     settings.target.focus();
     settings.target.setSelectionRange(theLinkPosition, theLinkPosition);
 
