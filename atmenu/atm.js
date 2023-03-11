@@ -150,6 +150,7 @@
     if (settings.onChoose != null){
       if (event.keyCode == 13 || event.key == "Enter" || event.inputType == "insertLineBreak"){
         event.preventDefault();
+        console.log(settings);
         AtMenu.onChooseRun(settings);
       }
     }
@@ -158,7 +159,7 @@
   var moveUpCheck = function (settings, event){
     if (event.keyCode == 38 || event.key == "ArrowUp"){
       event.preventDefault();
-      var upTargetDiv = document.querySelector('.atm-item-active');
+      var upTargetDiv = document.querySelector(settings.menuId + ' .atm-item-active');
       if (upTargetDiv) {
           var previousDiv = upTargetDiv.previousElementSibling;
           while (previousDiv && previousDiv.classList.contains("atm-item-inactive")) {
@@ -176,7 +177,7 @@
   var moveDownCheck = function (settings, event){
     if (event.keyCode == 40 || event.key == "ArrowDown"){
       event.preventDefault();
-      var downTargetDiv = document.querySelector('.atm-item-active');
+      var downTargetDiv = document.querySelector(settings.menuId + ' .atm-item-active');
       if (downTargetDiv) {
           var nextDiv = downTargetDiv.nextElementSibling;
           while (nextDiv && nextDiv.classList.contains("atm-item-inactive")) {
@@ -192,7 +193,7 @@
   }
 
   var checkMenuItemVisible = function(settings){
-    var selectedItem = document.querySelector('.atm-item-active');
+    var selectedItem = document.querySelector(settings.menuId + ' .atm-item-active');
     if (selectedItem){
       var itemPos = selectedItem.offsetTop;
       settings.menu.scrollTo({ top: itemPos });
@@ -224,12 +225,13 @@
   }
 
   var rebuildFilteredMenu = function (text, settings, event){
-
-    var allMenuItems = document.querySelectorAll(settings.items);
+    var allMenuItems = document.querySelectorAll(settings.menuId + " " + settings.items);
     var firstActivated = false;
 
-    if (document.querySelector(".atm-item-active") != null){
-        document.querySelector(".atm-item-active").classList.remove("atm-item-active");
+    var theActiveFilter =document.querySelector(settings.menuId + " .atm-item-active");
+
+    if (theActiveFilter != null){
+      theActiveFilter.classList.remove("atm-item-active");
     }
 
     for (var i = 0; i < allMenuItems.length; i++){
@@ -249,8 +251,8 @@
     }
 
     if (firstActivated == false){
-        if (document.querySelector(".atm-item-active") != null){
-            document.querySelector(".atm-item-active").classList.remove("atm-item-active");
+        if (theActiveFilter != null){
+          theActiveFilter.classList.remove("atm-item-active");
         }
     }
 
