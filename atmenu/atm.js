@@ -31,7 +31,7 @@
       "items": ".atm-item",
       "openMenu": "@", // @ - Character to open the menu
       "closeMenu": "Escape", // Esc - Character to close the menu,
-      "marginTop": 30 // margin above the menu so that it's not over the line of text/ openMenu key
+      "marginTop": 0 // margin above the menu so that it's not over the line of text/ openMenu key
   };
 
   var extend = function () {
@@ -124,7 +124,7 @@
             marginTop = settings.marginTop;
           }
 
-          settings.menu.style.top = position.caret.top + position.target.top + position.html + marginTop + "px";
+          settings.menu.style.top = position.caret.top + position.target.top + position.html + "px";
           settings.menu.style.left = position.caret.left + position.target.left - 30 + "px";
           settings.menu.classList.add("atm-menu-active");
 
@@ -312,6 +312,16 @@
     span.style.direction = window.getComputedStyle(textarea, null).getPropertyValue("direction");
     span.style.textIndent = window.getComputedStyle(textarea, null).getPropertyValue("text-indent");
     span.style.lineHeight = window.getComputedStyle(textarea, null).getPropertyValue("line-height");
+    span.style.border = window.getComputedStyle(textarea, null).getPropertyValue("border");
+    span.style.letterSpacing = window.getComputedStyle(textarea, null).getPropertyValue("letter-spacing");
+    span.style.fontWeight = window.getComputedStyle(textarea, null).getPropertyValue("font-weight");
+    span.style.fontStyle = window.getComputedStyle(textarea, null).getPropertyValue("font-style");
+    span.style.fontVariant = window.getComputedStyle(textarea, null).getPropertyValue("font-variant");
+    span.style.textDecoration = window.getComputedStyle(textarea, null).getPropertyValue("text-decoration");
+    span.style.top = window.getComputedStyle(textarea, null).getPropertyValue("top");
+    span.style.left = window.getComputedStyle(textarea, null).getPropertyValue("left");
+    span.style.height = "auto";
+    span.style.width = "auto";
 
     // Get the line that the caret is on
     const caret = textarea.selectionStart;
@@ -331,7 +341,7 @@
     const fontSize = parseFloat(window.getComputedStyle(textarea, null).getPropertyValue("font-size"));
 
     // Calculate the top position based on the line height and font size
-    const top = (lines.length - 1) * lineHeight + (lineHeight - fontSize) / 2;
+    const top = (lines.length - 1) * lineHeight + lineHeight + fontSize;
 
     return { left: left, top: top };
   }
