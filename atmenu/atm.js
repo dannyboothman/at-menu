@@ -1,6 +1,6 @@
 
 /*
- * At Menu
+ * @ Menu
  * Copyright 2023 Daniel Boothman
  * www.atmenujs.com
  * License: MIT
@@ -113,26 +113,34 @@
   // Open Menu
   var openMenu = function (settings, event) {
 
-      const text = settings.target.value;
-      const cursorPos = settings.target.selectionStart;
+    let text;
+    let cursorPos;
+    
+    if (settings.target.tagName == "INPUT" || settings.target.tagName == "TEXTAREA"){
+      text = settings.target.value;
+      cursorPos = settings.target.selectionStart;
+    } else if (settings.target.getAttribute("contenteditable")){
+      text = settings.target.innerText;
+      cursorPos = selectionStartForContentEditable(settings.target);
+    }
 
-      if (text[cursorPos - 1] === settings.openMenu) {
-          var position = AtMenu.getCaretPosition(settings);
-          
-          var marginTop = defaults.marginTop;
-          if (settings.marginTop){
-            marginTop = settings.marginTop;
-          }
+    if (text[cursorPos - 1] === settings.openMenu) {
+        var position = AtMenu.getCaretPosition(settings);
+        
+        var marginTop = defaults.marginTop;
+        if (settings.marginTop){
+          marginTop = settings.marginTop;
+        }
 
-          settings.menu.style.top = position.caret.top + position.target.top + position.html + "px";
-          settings.menu.style.left = position.caret.left + position.target.left - 30 + "px";
-          settings.menu.classList.add("atm-menu-active");
+        settings.menu.style.top = position.caret.top + position.target.top + position.html + "px";
+        settings.menu.style.left = position.caret.left + position.target.left - 30 + "px";
+        settings.menu.classList.add("atm-menu-active");
 
-          if (settings.onOpen != null){
-            AtMenu.onOpenRun(settings);
-          }
+        if (settings.onOpen != null){
+          AtMenu.onOpenRun(settings);
+        }
 
-      }
+    }
   };
 
   var backspaceCheck = function (settings, event){
@@ -203,10 +211,21 @@
 
   var textAfterSymbol = function(settings){
     var theText = null;
-    const text = settings.target.value;
+    let text;
+    if (settings.target.tagName == "INPUT" || settings.target.tagName == "TEXTAREA"){
+      text = settings.target.value;
+    } else if (settings.target.getAttribute("contenteditable")){
+      text = settings.target.innerText;
+    }
+
     const atSymbolIndex = text.indexOf(settings.openMenu);
     if (atSymbolIndex >= 0) {
-      const caretPosition = settings.target.selectionStart;
+      let caretPosition;
+      if (settings.target.tagName == "INPUT" || settings.target.tagName == "TEXTAREA"){
+        caretPosition = settings.target.selectionStart;
+      } else if (settings.target.getAttribute("contenteditable")){
+        caretPosition = selectionStartForContentEditable(settings.target);
+      }
       theText = text.substring(atSymbolIndex + 1, caretPosition);
     }
     return theText;
@@ -276,6 +295,22 @@
     );
   }
 
+  var selectionStartForContentEditable = function(element){
+    let position = 0;
+    const isSupported = typeof window.getSelection !== "undefined";
+    if (isSupported) {
+      const selection = window.getSelection();
+      if (selection.rangeCount !== 0) {
+        const range = window.getSelection().getRangeAt(0);
+        const preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+        position = preCaretRange.toString().length;
+      }
+    }
+    return position;
+  }
+
   /**
    * A public method
    */
@@ -324,8 +359,17 @@
     span.style.width = "auto";
 
     // Get the line that the caret is on
-    const caret = textarea.selectionStart;
-    const lines = textarea.value.substring(0, caret).split("\n");
+    let caret;
+    let lines;
+
+    if (textarea.tagName == "INPUT" || textarea.tagName == "TEXTAREA"){
+      caret = textarea.selectionStart;
+      lines = textarea.value.substring(0, caret).split("\n");
+    } else if (textarea.getAttribute("contenteditable")){
+      caret = selectionStartForContentEditable(textarea);
+      lines = textarea.innerText.substring(0, caret).split("\n");
+    }
+
     const currentLine = lines[lines.length - 1];
 
     // Insert the text up to the caret position on the current line into the hidden element
@@ -413,21 +457,47 @@
   publicMethods.insertContent = function(evt, content, replace = true){
     
     var settings = evt.settings;
-    var theText = settings.target.value;
+    let theText;
+    let caretPosition;
+
+    if (settings.target.tagName == "INPUT" || settings.target.tagName == "TEXTAREA"){
+      theText = settings.target.value;
+      caretPosition = settings.target.selectionStart;
+    } else if (settings.target.getAttribute("contenteditable")){
+      theText = settings.target.innerText;
+      caretPosition = selectionStartForContentEditable(settings.target);
+    }
+
     const atSymbolIndex = theText.indexOf(settings.openMenu);
-    const caretPosition = settings.target.selectionStart;
 
     const theLink = `${content}`;
 
     const replacedText = caretPosition - atSymbolIndex;
     const newText = theText.substring(0, atSymbolIndex) + theLink + theText.substring(caretPosition);
-    settings.target.value = newText;
+    if (settings.target.tagName == "INPUT" || settings.target.tagName == "TEXTAREA"){
+      settings.target.value = newText;
+    } else {
+      settings.target.innerText = newText;
+    }
 
     closeMenuForced(settings);
 
     let theLinkPosition = caretPosition - replacedText + theLink.length;
     settings.target.focus();
-    settings.target.setSelectionRange(theLinkPosition, theLinkPosition);
+
+
+    if (settings.target.tagName == "INPUT" || settings.target.tagName == "TEXTAREA"){
+      settings.target.setSelectionRange(theLinkPosition, theLinkPosition);
+    } else if (settings.target.getAttribute("contenteditable")){
+      var range = document.createRange();
+      range.setStart(settings.target.firstChild, theLinkPosition);
+      range.setEnd(settings.target.firstChild, theLinkPosition);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+
+    
 
   }
 
