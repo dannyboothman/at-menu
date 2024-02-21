@@ -124,7 +124,7 @@
       cursorPos = selectionStartForContentEditable(settings.target);
     }
 
-    if (text[cursorPos - 1] === settings.openMenu) {
+    if (text[cursorPos - 1] === settings.openMenu || settings.openMenu.indexOf(text[cursorPos - 1]) > -1) {
         var position = AtMenu.getCaretPosition(settings);
         
         var marginTop = defaults.marginTop;
@@ -148,7 +148,7 @@
       const text = settings.target.value;
       const cursorPos = settings.target.selectionStart;
 
-      if (text[cursorPos - 1] === settings.openMenu) {
+      if (text[cursorPos - 1] === settings.openMenu || settings.openMenu.indexOf(text[cursorPos - 1]) > -1) {
         closeMenuForced(settings);
       }
     }
@@ -218,7 +218,18 @@
       text = settings.target.innerText;
     }
 
-    const atSymbolIndex = text.indexOf(settings.openMenu);
+    let atSymbolIndex = -1;
+    if (Array.isArray(settings.openMenu)){
+      let index = 0;
+      while (atSymbolIndex === -1 && index < settings.openMenu.length) {
+          const char = settings.openMenu[index];
+          atSymbolIndex = text.indexOf(char);
+          index++;
+      }
+    } else {
+      atSymbolIndex = text.indexOf(settings.openMenu);
+    }
+    
     if (atSymbolIndex >= 0) {
       let caretPosition;
       if (settings.target.tagName == "INPUT" || settings.target.tagName == "TEXTAREA"){
@@ -228,6 +239,7 @@
       }
       theText = text.substring(atSymbolIndex + 1, caretPosition);
     }
+
     return theText;
   }
 
@@ -468,7 +480,17 @@
       caretPosition = selectionStartForContentEditable(settings.target);
     }
 
-    const atSymbolIndex = theText.indexOf(settings.openMenu);
+    let atSymbolIndex = -1;
+    if (Array.isArray(settings.openMenu)){
+      let index = 0;
+      while (atSymbolIndex === -1 && index < settings.openMenu.length) {
+          const char = settings.openMenu[index];
+          atSymbolIndex = theText.indexOf(char);
+          index++;
+      }
+    } else {
+      atSymbolIndex = theText.indexOf(settings.openMenu);
+    }
 
     const theLink = `${content}`;
 
